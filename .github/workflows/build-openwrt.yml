@@ -10,7 +10,7 @@ on:
 env:
   BOARD: "ramips"
   SUBTARGET: "mt7621"
-  PROFILE: "mt7621_dlink_dap-x1860-a1"
+  PROFILE: "dlink_dap-x1860-a1"
   PACKAGES: "zerotier luci-app-ttyd ttyd luci-app-shadowsocks-libev shadowsocks-libev-ss-server luci wpad iperf3 ethtool mtr iwinfo ca-bundle iperf nano htop dawn luci-app-dawn -luci-proto-ppp -ppp -ppp-mod-pppoe -kmod-pppox -kmod-pppoe -kmod-ppp -wpad-basic-wolfssl"
 
 jobs:
@@ -74,6 +74,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: openwrt/bin/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/openwrt-ramips-mt7621-dlink-dap-x1860-a1-squashfs-sysupgrade.bin
-        asset_name: openwrt-ramips-mt7621-dlink-dap-x1860-a1-squashfs-sysupgrade.bin
+        asset_path: openwrt/bin/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/openwrt-ramips-mt7621-dlink_dap-x1860-a1-squashfs-sysupgrade.bin
+        asset_name: openwrt-ramips-mt7621-dlink_dap-x1860-a1-squashfs-sysupgrade.bin
         asset_content_type: application/bin
