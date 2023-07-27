@@ -62,6 +62,7 @@ jobs:
       with:
         tag_name: ${{ env.OPENWRT_VERSION }}
         release_name: OpenWrt ${{ env.OPENWRT_VERSION }}
+        title: OpenWrt ${{ env.OPENWRT_VERSION }}
         body: |
           This release is based on ${{ env.OPENWRT_VERSION }} OpenWrt build with these packages ${{ env.PACKAGES }} for ${{ env.PROFILE }} router.
         draft: false
