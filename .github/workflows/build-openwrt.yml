@@ -61,28 +61,13 @@ jobs:
         cd openwrt
         make image PROFILE="${{ env.PROFILE }}" PACKAGES="${{ env.PACKAGES }}"
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
+    - name: Create Release and Upload Asset
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.commit.outputs.SHORT_SHA }}
-        release_name: OpenWrt ${{ env.OPENWRT_VERSION }}
-        body: |
-          This release is based on ${{ env.OPENWRT_VERSION }} OpenWrt build with these packages ${{ env.PACKAGES }} for ${{ env.PROFILE }} router.
-          
-          Commit: ${{ steps.commit.outputs.SHORT_SHA }}
-        draft: false
-        prerelease: false
-
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: openwrt/bin/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/openwrt-ramips-mt7621-dlink_dap-x1860-a1-squashfs-sysupgrade.bin
-        asset_name: openwrt-ramips-mt7621-dlink_dap-x1860-a1-squashfs-sysupgrade.bin
-        asset_content_type: application/bin
+      run: |
+        IMAGE_FILE="openwrt/bin/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/openwrt-${{ env.OPENWRT_RELEASE }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-${{ env.PROFILE }}-squashfs-sysupgrade.bin"
+        
+        gh release create "${{ steps.commit.outputs.SHORT_SHA }}" \
+          --title "OpenWrt ${{ env.OPENWRT_VERSION }}" \
+          --notes "This release is based on ${{ env.OPENWRT_VERSION }} OpenWrt build with these packages ${{ env.PACKAGES }} for ${{ env.PROFILE }} router.\n\nCommit: ${{ steps.commit.outputs.SHORT_SHA }}" \
+          "$IMAGE_FILE"
