@@ -11,7 +11,7 @@ env:
   BOARD: "ramips"
   SUBTARGET: "mt7621"
   PROFILE: "dlink_dap-x1860-a1"
-  OPENWRT_RELEASE: "22.03.0"
+  OPENWRT_RELEASE: "23.05.6"
   PACKAGES: "zerotier luci-app-ttyd ttyd luci-app-shadowsocks-libev shadowsocks-libev-ss-server luci wpad iperf3 ethtool mtr iwinfo ca-bundle iperf nano htop dawn luci-app-dawn -luci-proto-ppp -ppp -ppp-mod-pppoe -kmod-pppox -kmod-pppoe -kmod-ppp -wpad-basic-wolfssl -wpad-basic-mbedtls"
 
 jobs:
