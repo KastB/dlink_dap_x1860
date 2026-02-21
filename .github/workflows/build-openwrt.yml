@@ -2,7 +2,7 @@ name: Build OpenWrt
 
 on:
   schedule:
-    - cron: "0 2 * * *"
+    - cron: "0 2 1 * *"
   push:
     branches:
       - master
@@ -23,6 +23,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
+
+    - name: Get commit hash
+      id: commit
+      run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
     - name: Initialization environment
       env:
@@ -62,10 +66,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ env.OPENWRT_VERSION }}
+        tag_name: ${{ steps.commit.outputs.SHORT_SHA }}
         release_name: OpenWrt ${{ env.OPENWRT_VERSION }}
         body: |
           This release is based on ${{ env.OPENWRT_VERSION }} OpenWrt build with these packages ${{ env.PACKAGES }} for ${{ env.PROFILE }} router.
+          
+          Commit: ${{ steps.commit.outputs.SHORT_SHA }}
         draft: false
         prerelease: false
 
