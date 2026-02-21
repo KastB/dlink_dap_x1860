@@ -11,6 +11,7 @@ env:
   BOARD: "ramips"
   SUBTARGET: "mt7621"
   PROFILE: "dlink_dap-x1860-a1"
+  OPENWRT_RELEASE: "22.03.0"
   PACKAGES: "zerotier luci-app-ttyd ttyd luci-app-shadowsocks-libev shadowsocks-libev-ss-server luci wpad iperf3 ethtool mtr iwinfo ca-bundle iperf nano htop dawn luci-app-dawn -luci-proto-ppp -ppp -ppp-mod-pppoe -kmod-pppox -kmod-pppoe -kmod-ppp -wpad-basic-wolfssl -wpad-basic-mbedtls"
 
 jobs:
@@ -38,13 +39,13 @@ jobs:
     - name: Download imagebuilder
       working-directory: /mnt/workdir
       run: |
-        curl -O "https://downloads.openwrt.org/snapshots/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/openwrt-imagebuilder-${{ env.BOARD }}-${{ env.SUBTARGET }}.Linux-x86_64.tar.xz"
-        tar xvaf openwrt-imagebuilder-${{ env.BOARD }}-${{ env.SUBTARGET }}.Linux-x86_64.tar.xz
-        ln -sf /mnt/workdir/openwrt-imagebuilder-${{ env.BOARD }}-${{ env.SUBTARGET }}.Linux-x86_64 $GITHUB_WORKSPACE/openwrt
+        curl -O "https://downloads.openwrt.org/releases/${{ env.OPENWRT_RELEASE }}/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/openwrt-imagebuilder-${{ env.OPENWRT_RELEASE }}-${{ env.BOARD }}-${{ env.SUBTARGET }}.Linux-x86_64.tar.xz"
+        tar xvaf openwrt-imagebuilder-${{ env.OPENWRT_RELEASE }}-${{ env.BOARD }}-${{ env.SUBTARGET }}.Linux-x86_64.tar.xz
+        ln -sf /mnt/workdir/openwrt-imagebuilder-${{ env.OPENWRT_RELEASE }}-${{ env.BOARD }}-${{ env.SUBTARGET }}.Linux-x86_64 $GITHUB_WORKSPACE/openwrt
  
     - name: Download version info
       run: |
-        curl -O "https://downloads.openwrt.org/snapshots/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/version.buildinfo"
+        curl -O "https://downloads.openwrt.org/releases/${{ env.OPENWRT_RELEASE }}/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/version.buildinfo"
         echo "OPENWRT_VERSION=$(cat version.buildinfo)" >> $GITHUB_ENV
         
     - name: Download locally installed packages
